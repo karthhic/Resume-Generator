@@ -11,10 +11,11 @@
   --accent:#2c3e50;
   --text:#2c3e50;
   --muted:#7f8c8d;
-  --border:#e0e0e0;
+  --border:#c28585;
   --bg:#ffffff;
-  --bg-alt:#f6f8fa;
+  --bg-alt:#cecbcd;
   --Linesp:1;
+  --FntSz:9;
 }
 
 * { box-sizing:border-box; margin:0; padding:0; }
@@ -36,7 +37,7 @@ body {
   margin-bottom:20px;
   padding:12px;
   background:var(--bg-alt);
-  border:1px solid var(--border);
+  border:2px solid var(--border);
   border-radius:8px;
 }
 
@@ -49,6 +50,14 @@ body {
   margin-top:4px;
   height:30px;
   width:60px;
+  border:1px solid var(--border);
+}
+
+.controls input[type="range"] {
+  display:block;
+  margin-top:4px;
+  height:30px;
+  width:80px;
 }
 
 input[type="file"] {
@@ -116,20 +125,20 @@ h1 {
   display:flex;
   flex-wrap:wrap;
   gap:8px;
+  background:var(--bg);
 }
 
 .tag {
   padding:3px 10px;
   border-radius:14px;
   border:1px solid var(--border);
-  background:var(--bg-alt);
   font-size:0.8em;
 }
 
 /* Print */
 @media print {
   .controls, input[type="file"] { display:none; }
-  body { padding:0; font-size:9pt; }
+  body { padding:0; font-size:var(--FntSz); }
 }
 
 </style>
@@ -147,8 +156,10 @@ h1 {
   <div>Text <input type="color" value="#2c3e50" data-var="--text"></div>
   <div>SubText <input type="color" value="#2c3e50" data-var="--muted"></div>
   <div>Background <input type="color" value="#ffffff" data-var="--bg"></div>
-  <div>Spacing <input type="range" min="1" max="3" value="1" id="slide" step="0.05" data-var="--Linesp"></div>
-  <span id="lhValue">1.5</span>
+  <div>Line <input type="color" value="#c28585" data-var="--border"></div>
+  <div>Spacing <input type="range" min="1" max="3" value="1" id="slide" step="0.05" data-var="--Linesp"><span id="lhValue">1.5</span></div>
+  <!-- <div>Font <input type="range" min="7" max="15" value="1" id="number" step="0.05" data-var="--FntSz"><span id="pad">7</span></div> -->
+  
 </div>
 
 <div id="resume"></div>
@@ -251,17 +262,20 @@ function renderResume(d) {
 
 <script>
   const slider = document.getElementById("slide");
-  <!-- const text = document.getElementById("section"); -->
   const value = document.getElementById("lhValue");
-
-  value.textContent = slider.value;
+  const Fontsize = document.getElementById("number");
+  const TextPadding = document.getElementById("pad");
 
   slider.addEventListener("input", () => {
   document.documentElement.style.setProperty(
       "--Linesp", slider.value);
     value.textContent = slider.value;
   });
- 
+   Fontsize.addEventListener("input", () => {
+  document.documentElement.style.setProperty(
+      "--FntSz", Fontsize.value);
+    TextPadding.textContent = Fontsize.value;
+  });
  
 </script>
 
