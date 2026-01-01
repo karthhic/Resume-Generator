@@ -1,0 +1,91 @@
+{
+  "personalInfo": {
+    "name": "First and last name",
+    "title": "Title",
+    "email": "emailaddress@gmail.com",
+    "phone": "+123456789",
+    "website": "website",
+    "github": "githubname",
+    "linkedin": "profilename",
+    "profile": "About ME"
+  },
+  "experience": [
+    {
+      "title": "Title1",
+      "company": "name",
+      "location": "location",
+      "duration": "duration",
+      "description": "About responsibilities"
+    },
+    {
+      "title": "Title2",
+      "company": "name",
+      "location": "location",
+      "duration": "duration",
+      "description": "About responsibilities"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Degree 1",
+      "institution": "University",
+      "location": "location",
+      "duration": "year to year",
+      "major": "Department",
+      "thesis": "Project thesis"
+    },
+    {
+      "degree": "Degree 2",
+      "institution": "University",
+      "location": "location",
+      "duration": "year to year",
+      "major": "Department",
+      "thesis": "Project thesis"
+    }
+  ],
+  "skills": [
+    "Skill 1",
+    "Skill 2",
+    "Skill 3",
+    "Skill 4",
+    "Skill 5",
+    "Skill 6"
+  ],
+  "languages": [
+    "Lang 1",
+    "Lang 2"
+  ],
+  "projects": [
+    {
+      "name": "Title 1",
+      "from": "Done for",
+      "description": "About the project",
+      "role": "What is your contribution"
+    },
+    {
+      "name": "Title 2",
+      "from": "Done for",
+      "description": "About the project",
+      "role": "What is your contribution"
+    }
+  ],
+  "references": [
+    {
+      "name": "Name",
+      "title": "Designation",
+      "organization": "Working place",
+      "email": "emailaddress",
+      "phone": "Phonenumber"
+    }
+  ],
+  "hobbies": [
+    "Hobby 1",
+    "Hobby 2",
+    "Hobby 3",
+    "Hobby 4",
+    "Hobby 5"
+  ],
+  "travel": [
+    "Any travelling documents or visa"
+  ]
+}

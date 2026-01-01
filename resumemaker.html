@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Resume Maker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --primary:#1a5490;
+  --accent:#2c3e50;
+  --text:#2c3e50;
+  --muted:#7f8c8d;
+  --border:#e0e0e0;
+  --bg:#ffffff;
+  --bg-alt:#f6f8fa;
+  --Linesp:1;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family:Segoe UI, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  max-width:210mm;
+  margin:auto;
+  padding:14mm 16mm;
+  font-size:9.5pt;
+}
+
+/* Controls */
+.controls {
+  display:flex;
+  gap:15px;
+  margin-bottom:20px;
+  padding:12px;
+  background:var(--bg-alt);
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+
+.controls div {
+  font-size:0.75em;
+}
+
+.controls input[type="color"] {
+  display:block;
+  margin-top:4px;
+  height:30px;
+  width:60px;
+}
+
+input[type="file"] {
+  margin-bottom:15px;
+}
+
+/* Header */
+header {
+  border-bottom:3px solid var(--primary);
+  margin-bottom:14px;
+  padding-bottom:10px;
+}
+
+h1 {
+  font-size:1.7em;
+  color:var(--primary);
+}
+
+.subtitle {
+  font-size:1em;
+  color:var(--accent);
+}
+
+.contact {
+  font-size:0.95em;
+  color:var(--muted);
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:6px;
+}
+
+/* Sections */
+.section {
+  margin-bottom:12px;
+  page-break-inside:avoid;
+  line-height:var(--Linesp);
+}
+
+.section h2 {
+  font-size:1.1em;
+  color:var(--primary);
+  border-bottom:2px solid var(--border);
+  margin-bottom:6px;
+}
+
+.item {
+  margin-bottom:8px;
+}
+
+.item-header {
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.title { font-weight:600; color:var(--accent); }
+.company { font-style:italic; color:var(--muted); font-size:0.9em; }
+.duration { font-size:0.8em; color:var(--muted); }
+
+.desc { margin-top:3px; }
+
+/* Tags */
+.tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.tag {
+  padding:3px 10px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--bg-alt);
+  font-size:0.8em;
+}
+
+/* Print */
+@media print {
+  .controls, input[type="file"] { display:none; }
+  body { padding:0; font-size:9pt; }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Upload JSON -->
+<input type="file" id="jsonFile" accept=".json">
+
+<!-- Color Controls -->
+<div class="controls">
+  <div>Primary <input type="color" value="#1a5490" data-var="--primary"></div>
+  <div>Accent <input type="color" value="#2c3e50" data-var="--accent"></div>
+  <div>Text <input type="color" value="#2c3e50" data-var="--text"></div>
+  <div>SubText <input type="color" value="#2c3e50" data-var="--muted"></div>
+  <div>Background <input type="color" value="#ffffff" data-var="--bg"></div>
+  <div>Spacing <input type="range" min="1" max="3" value="1" id="slide" step="0.05" data-var="--Linesp"></div>
+  <span id="lhValue">1.5</span>
+</div>
+
+<div id="resume"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll('input[type="color"]').forEach(input => {
+    input.addEventListener("input", () => {
+      document.documentElement.style.setProperty(
+        input.dataset.var, input.value
+      );
+    });
+  });
+
+  document.getElementById("jsonFile").addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => renderResume(JSON.parse(reader.result));
+    reader.readAsText(file);
+  });
+});
+
+function renderResume(d) {
+  const p = d.personalInfo;
+  document.getElementById("resume").innerHTML = `
+    <header>
+      <h1>${p.name}</h1>
+      <div class="subtitle">${p.title}</div>
+      <div class="contact">
+        <span>📧 <a href="mailto:${p.email}">${p.email}</a></span>
+        <span>📱 ${p.phone}</span>
+        <span>💼 <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/${p.linkedin}">https://www.linkedin.com/in/${p.linkedin}</a></span>
+      </div>
+    </header>
+
+    <div class="section">
+      <h2>Profile</h2>
+      <p>${p.profile}</p>
+    </div>
+
+    <div class="section">
+      <h2>Experience</h2>
+      ${d.experience.map(e => `
+        <div class="item">
+          <div class="item-header">
+            <div>
+              <div class="title">${e.title}</div>
+              <div class="company">${e.company}</div>
+            </div>
+            <div class="duration">${e.duration}</div>
+          </div>
+          <div class="desc">${e.description}</div>
+        </div>
+      `).join("")}
+    </div>
+
+    <div class="section">
+      <h2>Education</h2>
+      ${d.education.map(e => `
+        <div class="item">
+		  <div class="item-header">
+		  <div>
+          <div class="title">${e.degree}${e.major}</div>
+		  </div>
+		  <div class="duration">${e.duration}</div>
+		  </div>
+          <div class="company">${e.institution}</div>
+          <div class="desc"></div>
+		  <div class="desc">${e.thesis}</div>
+        </div>
+      `).join("")}
+    </div>
+
+    <div class="section">
+      <h2>Skills</h2>
+      <div class="tags">
+        ${d.skills.map(s => `<span class="tag">${s}</span>`).join("")}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Languages</h2>
+      <div class="tags">
+        ${d.languages.map(l => `<span class="tag">${l}</span>`).join("")}
+      </div>
+    </div>
+	
+	<div class="section">
+      <h2>Hobbies</h2>
+      <div class="tags">
+        ${d.hobbies.map(l => `<span class="tag">${l}</span>`).join("")}
+      </div>
+    </div>
+  `;
+}
+</script>
+
+<script>
+  const slider = document.getElementById("slide");
+  <!-- const text = document.getElementById("section"); -->
+  const value = document.getElementById("lhValue");
+
+  value.textContent = slider.value;
+
+  slider.addEventListener("input", () => {
+  document.documentElement.style.setProperty(
+      "--Linesp", slider.value);
+    value.textContent = slider.value;
+  });
+ 
+ 
+</script>
+
+
+</body>
+</html>
+
