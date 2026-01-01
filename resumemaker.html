@@ -194,7 +194,9 @@ function renderResume(d) {
       <div class="contact">
         <span>📧 <a href="mailto:${p.email}">${p.email}</a></span>
         <span>📱 ${p.phone}</span>
-        <span>💼 <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/${p.linkedin}">https://www.linkedin.com/in/${p.linkedin}</a></span>
+        <span>💼 <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/${p.linkedin}">LinkedIN</a></span>
+        <span>💼 <a target="_blank" rel="noopener noreferrer" href="${p.website}">${p.website}</a></span>
+        <span>🔧 github.com/${p.github}</span>
       </div>
     </header>
 
@@ -271,11 +273,11 @@ function renderResume(d) {
       "--Linesp", slider.value);
     value.textContent = slider.value;
   });
-   Fontsize.addEventListener("input", () => {
+   /* Fontsize.addEventListener("input", () => {
   document.documentElement.style.setProperty(
       "--FntSz", Fontsize.value);
     TextPadding.textContent = Fontsize.value;
-  });
+  }); */
  
 </script>
 
